@@ -1,0 +1,394 @@
+@IBAction func popToFeed(sender : UIButton){
+UIView.animateWithDuration(0.5, animations: {
+self.vMenuIndicator.frame.origin.y -= (PERC_BeigeHeight + 1)
+}, completion: { _ in
+if self.menuShowed {
+self.showMenu(UIBarButtonItem())
+}
+self.navigationController?.popToRootViewControllerAnimated(true)
+vMenu.hidden = true
+delay(0.5){
+self.vMenu.hidden = false
+}
+})
+}
+
+@IBAction func goToMyCollection(sender : UIButton){
+var vcs = self.navigationController!.viewControllers
+var newVCs = NSMutableArray()
+let storyboard = UIStoryboard(name: "Main", bundle: nil)
+let myCollec : MyCollectionController = storyboard.instantiateViewControllerWithIdentifier("mycollectioncontroller") as! MyCollectionController
+newVCs.addObject(vcs[0])
+newVCs.addObject(myCollec)
+var trans = CATransition()
+trans.duration = 0.5
+trans.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+trans.type = kCATransitionMoveIn
+trans.subtype = kCATransitionFromLeft
+self.navigationController!.view.layer.addAnimation(trans, forKey: nil)
+UIView.animateWithDuration(0.5, animations: {
+self.vMenuIndicator.frame.origin.y += (PERC_BeigeHeight + 1) * 2
+}, completion: { _ in
+if self.menuShowed {
+self.showMenu(UIBarButtonItem())
+}
+self.navigationController?.setViewControllers(newVCs as [AnyObject], animated: false)
+})
+}
+
+@IBAction func goToAbout(sender : UIButton){
+let storyboard = UIStoryboard(name: "Main", bundle: nil)
+let vc : AboutController = storyboard.instantiateViewControllerWithIdentifier("aboutcontroller") as! AboutController
+UIView.animateWithDuration(0.5, animations: {
+self.vMenuIndicator.frame.origin.y += (PERC_BeigeHeight + 1) * 3
+}, completion: { _ in
+if self.menuShowed {
+self.showMenu(UIBarButtonItem())
+}
+self.navigationController?.pushViewController(vc, animated: true)
+})
+self.navigationController?.pushViewController(vc, animated: true)
+}
+
+func delay(delay:Double, closure:()->()) {
+dispatch_after(
+dispatch_time(
+DISPATCH_TIME_NOW,
+Int64(delay * Double(NSEC_PER_SEC))
+),
+dispatch_get_main_queue(), closure)
+}
+}
+
+
+UIView.animateWithDuration(0.5, animations: {
+self.vMenuIndicator.frame.origin.y += (PERC_BeigeHeight + 1) * 3
+}, completion: { _ in
+if self.menuShowed {
+self.showMenu(UIBarButtonItem())
+}
+let storyboard = UIStoryboard(name: "Main", bundle: nil)
+let myCollec : MyCollectionController = storyboard.instantiateViewControllerWithIdentifier("mycollectioncontroller") as! MyCollectionController
+var trans = CATransition()
+trans.duration = 0.5
+trans.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+trans.type = kCATransitionMoveIn
+trans.subtype = kCATransitionFromLeft
+self.navigationController!.view.layer.addAnimation(trans, forKey: nil)
+self.navigationController?.pushViewController(myCollec, animated: false)
+})
+
+
+var epubPath = NSBundle.mainBundle().pathForResource("Brave_New_World_Aldous_Huxley", ofType: "epub")
+
+let filemgr = NSFileManager.defaultManager()
+
+let dirPaths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+let docsDir = dirPaths[0] as! String
+bookDir = docsDir.stringByAppendingPathComponent("Brave_New_World_Aldous_Huxley")
+var error: NSError?
+
+if !filemgr.createDirectoryAtPath(bookDir, withIntermediateDirectories: true, attributes: nil, error: &error) {
+println("Failed to create dir: \(error!.localizedDescription)")
+} else {
+if !filemgr.createFileAtPath(bookDir.stringByAppendingPathComponent("book.epub"), contents: NSFileManager.defaultManager().contentsAtPath(epubPath!), attributes: nil){
+println("Failed to create dir: \(error!.localizedDescription)")
+}
+}
+
+var zip = ZipArchive()
+if zip.UnzipOpenFile(bookDir.stringByAppendingPathComponent("book.epub")) {
+var isUnzipped = zip.UnzipFileTo(bookDir, overWrite: true)
+if !isUnzipped {
+println(" unzip failed")
+zip.UnzipCloseFile()
+} else {
+
+
+removeActivityIndicator()
+
+let filemgr = NSFileManager.defaultManager()
+let strContainer = NSString(contentsOfFile: bookDir.stringByAppendingPathComponent("META-INF").stringByAppendingPathComponent("container.xml"), encoding: NSUTF8StringEncoding, error: nil)
+//println(str)
+//Parse container to get content file path
+var petitScan: NSString?
+
+//We get the ids and the hrefs of the different files
+let sc = NSScanner(string: strContainer! as String)
+var rootAttr : String!
+var contentPath : String!
+if sc.scanUpToString("<rootfile", intoString:nil) {
+sc.scanString("<rootfile", intoString:nil)
+if sc.scanUpToString(">", intoString:&petitScan) {
+let newSc = NSScanner(string: petitScan as! String)
+if newSc.scanUpToString("full-path=\"", intoString: nil){
+newSc.scanString("full-path=\"", intoString: nil)
+if newSc.scanUpToString("\"", intoString: &petitScan){
+contentPath = petitScan as! String
+}
+}
+}
+}
+
+//If container.xml was corrupted, contentPath gets defaulft value
+if contentPath == nil {
+contentPath = "OEBPS/content.opf"
+}
+
+//Content File
+let strContent = NSString(contentsOfFile: bookDir.stringByAppendingPathComponent(contentPath), encoding: NSUTF8StringEncoding, error: nil)
+//println(str2)
+
+var petitScanned: NSString?
+
+//We get the ids and the hrefs of the different files
+let petitScanner = NSScanner(string: strContent! as String)
+var anyMore = true
+while anyMore {
+var href : String!
+var id : String!
+if petitScanner.scanUpToString("<item href=\"", intoString:nil) {
+petitScanner.scanString("<item href=\"", intoString:nil)
+if petitScanner.scanUpToString("\"", intoString:&petitScanned) {
+href = petitScanned as! String
+}
+} else {
+anyMore = false
+}
+if petitScanner.scanUpToString("id=\"", intoString:nil) {
+petitScanner.scanString("id=\"", intoString:nil)
+if petitScanner.scanUpToString("\"", intoString:&petitScanned) {
+
+
+/* let transImgPath = NSBundle().pathForResource("imgtrans", ofType: "png")
+wvRead.stringByEvaluatingJavaScriptFromString("addCSSRule('body', 'background-color: transparent !important; background-image:url(\(transImgPath)); background-repeat: repeat-x; background-size:\(wvRead.frame.size.width)px \(wvRead.frame.size.width)px;')")
+
+//wvTest.loadHTMLString("<!DOCTYPE html><html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\"><head></head><body style=\"background-color:#aaaaaa\">kikoulol</body></html>", baseURL: nil)
+wvTest.stringByEvaluatingJavaScriptFromString("addCSSRule('body', 'background-color: transparent !important; background-image:url(\(transImgPath)); background-repeat: repeat-x; background-size:\(wvTest.frame.size.width)px \(wvTest.frame.size.width)px;margin : 0 !important;')")
+//wvTest.stringByEvaluatingJavaScriptFromString("addCSSRule('body', 'background-color:  ')")
+wvTest.paginationBreakingMode = UIWebPaginationBreakingMode.Page
+wvTest.paginationMode = UIWebPaginationMode.LeftToRight*/
+
+
+
+
+
+id = petitScanned as! String
+}
+} else {
+anyMore = false
+}
+if anyMore {
+dic[id] = href
+}
+}
+
+var fci : NSString?
+let scanChapter = NSScanner(string: strContent! as String)
+var anymoreChapters = true
+//We get the first chapter id to load it first
+//var firstChapterId : String!
+if scanChapter.scanUpToString("idref=\"", intoString:nil) {
+scanChapter.scanString("idref=\"", intoString:nil)
+if scanChapter.scanUpToString("\"", intoString:&fci) {
+firstChapterId = fci as! String
+}
+}
+var counter = 0
+while anymoreChapters {
+if scanChapter.scanUpToString("idref=\"", intoString:nil) {
+scanChapter.scanString("idref=\"", intoString:nil)
+if scanChapter.scanUpToString("\"", intoString:&fci) {
+var chapterId = fci as! String
+chapters.insertObject(chapterId, atIndex: counter)
+counter++
+}
+} else {
+anymoreChapters = false
+}
+}
+self.nChapters = counter
+//Setting the chapters buttons
+var bWidth = PERC_PurpleHeight
+for(var i = 0 ; i < counter ; i++){
+var b = UIButton(frame: CGRect(x: PERC_BlackWidth + CGFloat(i) * bWidth, y: 0.0, width: bWidth, height: bWidth))
+b.setTitle("\(i)", forState: UIControlState.Normal)
+b.titleLabel?.textAlignment = NSTextAlignment.Center
+b.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+b.addTarget(self, action: "bChapterClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+scChapters.addSubview(b)
+}
+
+//We retrieve the url from the dictionary
+var suffix = dic[firstChapterId]
+//Full path
+let urlFirstChapter = NSURL(fileURLWithPath: bookDir.stringByAppendingPathComponent("OEBPS").stringByAppendingPathComponent(suffix!))
+//Loading in webview
+wvRead.loadRequest(NSURLRequest(URL: urlFirstChapter!))
+
+//Setting gestures recognizers
+var swipeRight = UISwipeGestureRecognizer(target: self, action: "goToMyCollectionSwipe:")
+swipeRight.direction = UISwipeGestureRecognizerDirection.Right
+var swipeLeft = UISwipeGestureRecognizer(target: self, action: "goToLibrarySwipe:")
+swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
+}
+}
+
+
+
+
+
+
+
+Font size perc
+
+wvRead.stringByEvaluatingJavaScriptFromString("document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '\(self.fontSize)%%'")
+
+
+
+
+
+
+//Setting the chapters buttons
+//var bWidth = PERC_PurpleHeight
+//var xEnd : Int!
+/*for(var i = 0 ; i < counter ; i++){
+var b = UIButton(frame: CGRect(x: PERC_BlackWidth + CGFloat(i + 1) * bWidth, y: 0.0, width: bWidth, height: bWidth))
+b.setTitle("\(i + 1)", forState: UIControlState.Normal)
+b.titleLabel?.textAlignment = NSTextAlignment.Center
+b.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+b.addTarget(self, action: "bChapterClicked:", forControlEvents: UIControlEvents.TouchUpInside)
+xEnd = i
+}*/
+//scChapters.contentSize.width = bWidth * CGFloat(xEnd + 1)
+
+
+
+
+
+
+TESTING SIZES
+/* var w = UIApplication.sharedApplication().keyWindow
+var vTeal = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: PERC_LightTealHeight))
+var vRouge = UIView(frame: CGRect(x: 0, y: PERC_LightTealHeight, width: screenWidth, height: PERC_ReadingPageHeight))
+var vBottom = UIView(frame: CGRect(x: 0, y: PERC_ReadingPageHeight + PERC_LightTealHeight, width: screenWidth, height: screenHeight - CGRectGetMaxY(vRouge.frame)))
+vTeal.backgroundColor = UIColor(red: 0, green: 1, blue: 1, alpha: 0.5)
+vRouge.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.5)
+vBottom.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.4)
+println("\(PERC_LightTealHeight)      \(PERC_ReadingPageHeight)      \(vBottom.frame.size.height)      \(wvRead.frame.size.height)")
+w?.addSubview(vTeal)
+w?.addSubview(vRouge)
+w?.addSubview(vBottom)*/
+
+
+
+
+
+
+
+/** Scroll To searched text
+
+
+function scrollToSearched(elt){
+if (elt) {
+if (elt.nodeType == 3) {
+while (true) {
+var value = elt.nodeValue;  // Search for keyword in text node
+var idx = value.toLowerCase().indexOf(\());
+
+if (idx < 0) break;             // not found, abort
+
+var span = document.createElement('span');
+var text = document.createTextNode(value.substr(idx,\().length));
+span.appendChild(text);
+span.setAttribute('class','onsentape');
+span.setAttribute('id','searched-now-\()');
+span.style.backgroundColor='yellow';
+span.style.color='black';
+text = document.createTextNode(value.substr(idx+\().length));
+elt.deleteData(idx, value.length - idx);
+var next = elt.nextSibling;
+elt.parentNode.insertBefore(span, next);
+elt.parentNode.insertBefore(text, next);
+elt = text;
+count++;	// update the counter
+}
+
+}else if (elt.nodeType == 1) { // Element node
+if (elt.style.display != 'none' && elt.nodeName.toLowerCase() != 'select') {
+for (var i=elt.childNodes.length-1; i>=0; i--) {
+scrollToSearched(elt.childNodes[i]);
+
+}
+}
+}
+}
+}
+
+var count = 1;
+scrollToSearched(document.body);
+
+
+
+
+while (true) {
+var value = element.nodeValue;  // Search for keyword in text node
+var idx = value.toLowerCase().indexOf(keyword);
+
+if (idx < 0) break;             // not found, abort
+
+var span = document.createElement("span");
+var text = document.createTextNode(value.substr(idx,keyword.length));
+span.appendChild(text);
+span.setAttribute("class","MyAppHighlight");
+span.style.backgroundColor="yellow";
+span.style.color="black";
+text = document.createTextNode(value.substr(idx+keyword.length));
+element.deleteData(idx, value.length - idx);
+var next = element.nextSibling;
+element.parentNode.insertBefore(span, next);
+element.parentNode.insertBefore(text, next);
+element = text;
+MyApp_SearchResultCount++;	// update the counter
+}
+} else if (element.nodeType == 1) { // Element node
+if (element.style.display != "none" && element.nodeName.toLowerCase() != 'select') {
+for (var i=element.childNodes.length-1; i>=0; i--) {
+MyApp_HighlightAllOccurencesOfStringForElement(element.childNodes[i],keyword);
+}
+}
+}
+}
+*/
+
+
+
+
+/*var rightCornersPath = UIBezierPath(roundedRect: bFontPlus.bounds, byRoundingCorners: UIRectCorner.TopRight|UIRectCorner.BottomRight, cornerRadii: CGSize(width: bFontPlus.frame.size.height / 2.0, height: bFontPlus.frame.size.height / 2.0))
+var rightCornersLayer = CAShapeLayer()
+rightCornersLayer.frame = bFontPlus.bounds
+rightCornersLayer.path = rightCornersPath.CGPath
+bFontPlus.layer.mask = rightCornersLayer
+
+var rightFrameLayer = CAShapeLayer()
+rightFrameLayer.frame = bFontPlus.bounds
+rightFrameLayer.path = rightCornersPath.CGPath
+rightFrameLayer.strokeColor = UIColor.blackColor().CGColor
+rightFrameLayer.lineWidth = 2
+rightFrameLayer.fillColor = nil
+bFontPlus.layer.addSublayer(rightFrameLayer)*/
+
+
+/*var leftCornersPath = UIBezierPath(roundedRect: bFontMinu.bounds, byRoundingCorners: UIRectCorner.TopLeft|UIRectCorner.BottomLeft, cornerRadii: CGSize(width: bFontMinu.frame.size.height / 2.0, height: bFontMinu.frame.size.height / 2.0))
+var leftCornersLayer = CAShapeLayer()
+leftCornersLayer.frame = bFontMinu.bounds
+leftCornersLayer.path = leftCornersPath.CGPath
+bFontMinu.layer.mask = leftCornersLayer
+
+var leftFrameLayer = CAShapeLayer()
+leftFrameLayer.frame = bFontMinu.bounds
+leftFrameLayer.path = leftCornersPath.CGPath
+leftFrameLayer.strokeColor = UIColor.blackColor().CGColor
+leftFrameLayer.lineWidth = 2
+leftFrameLayer.fillColor = nil
+bFontMinu.layer.addSublayer(leftFrameLayer)*/

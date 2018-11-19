@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Interstate-Regular.otf">
+            <string>Interstate-Regular</string>
+            <string>Interstate-Regular</string>
+            <string>Interstate-Regular</string>
+            <string>Interstate-Regular</string>
+            <string>Interstate-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BookEndView" customModule="Globe" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J8B-Wp-QVZ">
+                    <rect key="frame" x="79" y="131" width="92" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.34509803919999998" green="0.35686274509999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Interstate-Regular" family="Interstate" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You've just finished" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tmH-91-K6R">
+                    <rect key="frame" x="67" y="154" width="153" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.34509803919999998" green="0.35686274509999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Interstate-Regular" family="Interstate" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GyO-my-lcl">
+                    <rect key="frame" x="79" y="209" width="92" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.34509803919999998" green="0.35686274509999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Interstate-Regular" family="Interstate" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cq0-FO-od9">
+                    <rect key="frame" x="152" y="182" width="92" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.34509803919999998" green="0.35686274509999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Interstate-Regular" family="Interstate" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sharefacebook" id="xwo-Zg-0JX">
+                    <rect key="frame" x="83" y="272" width="206" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="91Q-xQ-sOr" appends="YES" id="xMA-ik-1av"/>
+                    </connections>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shareemail" id="UyU-Pm-TMT">
+                    <rect key="frame" x="79" y="313" width="206" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="OZV-fc-Pc1" appends="YES" id="rLI-Jb-mvR"/>
+                    </connections>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sharetwitter" id="C0m-x1-TWZ">
+                    <rect key="frame" x="83" y="381" width="206" height="55"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="9Ab-OH-28S" appends="YES" id="dff-EJ-5ui"/>
+                    </connections>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tell your friends about it" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e1w-e4-iPN">
+                    <rect key="frame" x="83" y="237" width="193" height="27"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.34509803919999998" green="0.35686274509999999" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Interstate-Regular" family="Interstate" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="ivShareEmail" destination="UyU-Pm-TMT" id="x5h-JM-CPT"/>
+                <outlet property="ivShareFacebook" destination="xwo-Zg-0JX" id="yTm-6w-OVn"/>
+                <outlet property="ivShareTwitter" destination="C0m-x1-TWZ" id="6SX-5s-flk"/>
+                <outlet property="lAuthor" destination="GyO-my-lcl" id="lge-EY-1DF"/>
+                <outlet property="lBookTitle" destination="cq0-FO-od9" id="nl2-dQ-d28"/>
+                <outlet property="lCongrats" destination="J8B-Wp-QVZ" id="jkW-VY-hFT"/>
+                <outlet property="lFinished" destination="tmH-91-K6R" id="viY-OC-Xbg"/>
+                <outlet property="lTell" destination="e1w-e4-iPN" id="Vqt-ro-viu"/>
+            </connections>
+            <point key="canvasLocation" x="955" y="291"/>
+        </view>
+        <tapGestureRecognizer id="9Ab-OH-28S">
+            <connections>
+                <action selector="twittShare:" destination="iN0-l3-epB" id="dbk-ze-AMl"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="OZV-fc-Pc1">
+            <connections>
+                <action selector="mailShare:" destination="iN0-l3-epB" id="UjH-SD-WFX"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="91Q-xQ-sOr">
+            <connections>
+                <action selector="fbShare:" destination="iN0-l3-epB" id="sd6-Mx-6Yy"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="shareemail" width="5888" height="979"/>
+        <image name="sharefacebook" width="5888" height="979"/>
+        <image name="sharetwitter" width="5888" height="979"/>
+    </resources>
+</document>

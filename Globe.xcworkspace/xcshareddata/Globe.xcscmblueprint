@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8BD81E66CD963A4DE4A5C9D74F729A673B345741",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8BD81E66CD963A4DE4A5C9D74F729A673B345741" : 9223372036854775807,
+    "334DFD2E49FDB51F665069FA17C29C6DDE395DDC" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "33CDA599-38A1-47FF-96E2-B8D9972E4BC1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8BD81E66CD963A4DE4A5C9D74F729A673B345741" : "globe-app-6:3:17\/",
+    "334DFD2E49FDB51F665069FA17C29C6DDE395DDC" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Globe",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Globe.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TahiG\/globe_app.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "334DFD2E49FDB51F665069FA17C29C6DDE395DDC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/TahiG\/globe-app-code.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8BD81E66CD963A4DE4A5C9D74F729A673B345741"
+    }
+  ]
+}
